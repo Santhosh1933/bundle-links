@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Navbar } from "../Navbar";
 import { useToast } from "@chakra-ui/react";
 import { Api } from "../../Api";
 import { GlobalContext } from "../GlobalContext";
+import { useNavigate } from "react-router-dom";
 
 export const Home = () => {
   const toast = useToast();
@@ -13,9 +14,17 @@ export const Home = () => {
     duration: 2000,
     isClosable: true,
   };
+  const navigate = useNavigate();
+  const [context, setContext] = useState("");
+  useEffect(() => {
+    var login = localStorage.getItem("login");
+    if (login) {
+      setContext(JSON.parse(login));
+      console.log(login);
+    }
+  }, []);
 
-  const context = useContext(GlobalContext);
-  const { id } = context.LoginAuth;
+  const { id } = context;
 
   const [RouteResult, setRouteResult] = useState("");
 
@@ -41,6 +50,8 @@ export const Home = () => {
       } catch (error) {
         console.error("Error creating route:", error);
       }
+    } else {
+      navigate("/Login");
     }
   }
 

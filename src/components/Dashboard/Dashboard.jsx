@@ -10,8 +10,6 @@ import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
 export const Dashboard = () => {
-  const context = useContext(GlobalContext);
-
   const toast = useToast();
 
   const [isCopied, setIsCopied] = useState(false);
@@ -58,8 +56,16 @@ export const Dashboard = () => {
       setIsCopied(false);
     }, 1000);
   };
+  const [context, setContext] = useState("");
+  useEffect(() => {
+    var login = localStorage.getItem("login");
+    if (login) {
+      setContext(JSON.parse(login));
+      console.log(login);
+    }
+  }, []);
 
-  const { id } = context.LoginAuth;
+  const { id } = context;
   async function GetRoute() {
     if (id) {
       let response = await fetch(`${Api}/get-route?userId=${id}`);

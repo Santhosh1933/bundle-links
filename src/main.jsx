@@ -13,7 +13,7 @@ const theme = extendTheme({
   },
 });
 
-var isLogin  = "login failed"
+
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(

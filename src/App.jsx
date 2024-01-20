@@ -7,26 +7,23 @@ import { Dashboard } from "./components/Dashboard/Dashboard";
 import { GlobalContext } from "./components/GlobalContext.js";
 import { PageNotFound } from "./components/PageNotFound.jsx";
 import { OutputPage } from "./components/Output/OutputPage.jsx";
+import Login from "./components/Auth/Login.jsx";
+import Register from "./components/Auth/Register.jsx";
 
 export default function App() {
-  const [LoginAuth, setLoginAuth] = useState("login failed");
-
-  useEffect(() => {
-    var login = localStorage.getItem("login");
-    if (login) {
-      login = JSON.parse(login);
-    }
-  }, [localStorage]);
 
   return (
     <div>
-      <GlobalContext.Provider value={{ LoginAuth }}>
+      <GlobalContext.Provider >
         <BrowserRouter>
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<OutputPage />} path="/*" />
             <Route element={<Dashboard />} path="/Dashboard" />
             <Route element={<PageNotFound />} path="/PageNotFound" />
+            <Route element={<Login />} path="/Login" />
+            <Route element={<Register />} path="/Register" />
+
           </Routes>
         </BrowserRouter>
       </GlobalContext.Provider>
