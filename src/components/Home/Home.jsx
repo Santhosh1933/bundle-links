@@ -31,6 +31,8 @@ export const Home = () => {
           body: JSON.stringify({
             userId: id,
             userRouteName: e.target.username.value,
+            name: e.target.name.value,
+            about: e.target.about.value,
           }),
         });
 
@@ -54,30 +56,44 @@ export const Home = () => {
         </p>
         <div>
           <form
-            className="inline-flex  shadow-md"
+            className="flex flex-col md:max-w-xl gap-4 p-2 shadow-md"
             onSubmit={HandleGenerateLink}
           >
             <div className="flex">
-              <div className="py-3 pl-3 hidden md:block text-sm md:text-md bg-white">
-                Bundle-linker.com/
+              <div className="py-3 w-fit pl-3 hidden md:block text-sm md:text-md bg-white">
+                Bundlelinker.com/
               </div>
               <input
                 type="text"
                 required
-                placeholder="Username"
+                placeholder="Route Name"
                 name="username"
-                className="py-3 px-3  text-sm md:text-md text-blue-800 border-none outline-none bg-white"
+                className="py-3 px-3 w-full text-sm md:text-md text-blue-800 border-none outline-none bg-white"
               />
             </div>
-            <button className="bg-blue-700 px-2 md:px-5 text-sm md:text-md text-white">
+            <input
+              type="text"
+              name="name"
+              required
+              placeholder="Name"
+              className="py-3 px-3 w-full text-sm md:text-md  border-none outline-none bg-white"
+            />
+            <input
+              type="text"
+              name="about"
+              required
+              placeholder="About..."
+              className="py-3 px-3 w-full text-sm md:text-md  border-none outline-none bg-white"
+            />
+            <button className="bg-blue-700 px-2 py-4 md:px-5 text-sm md:text-md text-white">
               Create Link
             </button>
           </form>
           <div>
             {!RouteResult.userRouteName ? (
               <p className="text-sm text-red-600">{RouteResult}</p>
-              ) : (
-                <p className="text-sm text-green-600">{`Your route created http://127.0.0.1:5173/${RouteResult.userRouteName}`}</p>
+            ) : (
+              <p className="text-sm text-green-600">{`Your route created http://127.0.0.1:5173/${RouteResult.userRouteName}`}</p>
             )}
           </div>
         </div>

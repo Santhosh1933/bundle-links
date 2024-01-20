@@ -9,7 +9,6 @@ import { Spinner, useToast } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { CiTrash } from "react-icons/ci";
-
 export const Dashboard = () => {
   const context = useContext(GlobalContext);
 
@@ -35,6 +34,7 @@ export const Dashboard = () => {
       />,
     ],
   ]);
+  const [ImageLoading, setImageLoading] = useState(false);
 
   const [updateInput, setUpdateInput] = useState({ title: "", url: "" });
   const navigate = useNavigate();
@@ -131,7 +131,8 @@ export const Dashboard = () => {
           title: "Error",
           description: "Duplicate Title",
           status: "error",
-          duration:500
+          duration: 500,
+          colorScheme: "red",
         });
       } finally {
         setRefresh(!refresh);
@@ -145,14 +146,21 @@ export const Dashboard = () => {
       {routeName ? (
         <div className="px-[5%] md:px-[15%]">
           <div>
-            <div
-              onClick={handleCopyClick}
-              className="w-full md:w-2/4 bg-green-300 transition-all mx-auto py-4 px-2 text-center my-[5vh] rounded-md border-2 border-green-800 cursor-pointer"
-            >
-              <p className="text-end font-semibold animate-pulse">
-                {isCopied && <i>!Copied</i>}
-              </p>
-              <a href={"http://127.0.0.1:5173/" + routeName.userRouteName}>
+            <div className="my-[5vh] bg-white flex flex-col ">
+              <div
+                onClick={handleCopyClick}
+                className="flex cursor-pointer justify-between bg-slate-800 p-2 text-white"
+              >
+                <p>Your Routing Link</p>
+                <p className="flex gap-2 items-center">
+                  <FaClipboard />
+                  <p>{isCopied ? "Copied" : "Copy"}</p>
+                </p>
+              </div>
+              <a
+                className="text-center text-blue-700 p-2"
+                href={"http://127.0.0.1:5173/" + routeName.userRouteName}
+              >
                 http://127.0.0.1:5173/{routeName.userRouteName}
               </a>
             </div>
@@ -170,7 +178,7 @@ export const Dashboard = () => {
                     </div>
                   </div>
                 ))}
-                {/* <button
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     setInputFields((inputFields) => {
@@ -194,7 +202,7 @@ export const Dashboard = () => {
                   className="self-end  bg-emerald-800 p-4 flex justify-center items-center rounded-full text-white"
                 >
                   <FaPlus />
-                </button> */}
+                </button>
 
                 <button
                   type="submit"
@@ -203,6 +211,123 @@ export const Dashboard = () => {
                   Submit
                 </button>
               </form>
+              <div>
+                <h1 className="text-2xl sm:text-3xl py-4">Profile</h1>
+                {routeName.profile != "" ? (
+                  <div className="w-[100px] h-[100px] rounded-full border-4 mx-auto">
+                    <img
+                      src={routeName.profile}
+                      className="w-full h-full object-cover rounded-full border-4 border-black"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full">
+                    <label className="flex justify-center w-full h-32 px-4 transition bg-white border-2 border-gray-300 border-dashed rounded-md appearance-none cursor-pointer hover:border-gray-400 focus:outline-none">
+                      <span className="flex items-center space-x-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="w-6 h-6 text-gray-600"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                          />
+                        </svg>
+                        <span className="font-medium text-gray-600">
+                          Drop files to Attach, or
+                          <span className="text-blue-600 underline">
+                            browse
+                          </span>
+                        </span>
+                      </span>
+                      <input
+                        type="file"
+                        name="file_upload"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files[0];
+
+                          const fileNameSpan =
+                            document.querySelector(".file-label-text");
+                          fileNameSpan.textContent = file.name;
+
+                          // Make API call
+                          const apiUrl =
+                            "https://image-service-hcni.onrender.com/upload/single";
+                          const formData = new FormData();
+                          formData.append("image", file);
+
+                          try {
+                            setImageLoading(true);
+                            const response = await fetch(apiUrl, {
+                              method: "POST",
+                              body: formData,
+                            });
+
+                            if (response.ok) {
+                              const result = await response.text();
+                              console.log(result);
+                              try {
+                                const response = await fetch(
+                                  `${Api}/update-profile`,
+                                  {
+                                    method: "PUT",
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                      RouteId: routeName._id,
+                                      profile: result,
+                                    }),
+                                  }
+                                );
+
+                                const res = await res.text();
+                                toast({
+                                  title: res,
+                                  duration: 1000,
+                                  colorScheme: "green",
+                                });
+                                console.log(res);
+                                setRefresh(!refresh);
+                              } catch (error) {
+                                console.log(res);
+                                setRefresh(!refresh);
+                              } finally {
+                                setRefresh(!refresh);
+                              }
+                            } else {
+                              console.error(
+                                "Failed to make API call:",
+                                response.status
+                              );
+                            }
+                          } catch (error) {
+                            console.error("Error making API call:", error);
+                          } finally {
+                            setImageLoading(false);
+                          }
+                        }}
+                      />
+                    </label>
+                    <span className="file-label-text font-medium text-gray-600"></span>
+                    <div>
+                      {ImageLoading && (
+                        <>
+                          <Spinner />
+                          Processing
+                        </>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
               <h1 className="text-2xl sm:text-3xl">Update Links</h1>
               {updateInput.title != "" && (
                 <form
@@ -312,7 +437,7 @@ export const Dashboard = () => {
                                 const result = await response.text();
                                 toast({
                                   title: result,
-                                  duration:1000,
+                                  duration: 1000,
                                 });
                               } catch (error) {
                                 console.log(error);
