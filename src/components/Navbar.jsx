@@ -109,11 +109,8 @@ export const Navbar = () => {
                   <hr />
                 </>
               ))}
-            </DrawerBody>
-
-            {!email ? (
-              <DrawerFooter className="w-full my-[10vh]">
-                <div className="text-sm w-full cursor-pointer flex justify-center items-center gap-1">
+              {!email ? (
+                <div className="text-sm mt-[5vh] w-full cursor-pointer flex justify-center items-center gap-1">
                   <p
                     onClick={() => navigate("/Login")}
                     className="px-5 w-2/4 py-2.5 bg-blue-50 border-2  rounded text-center"
@@ -127,18 +124,18 @@ export const Navbar = () => {
                     Create Account
                   </p>
                 </div>
-              </DrawerFooter>
-            ) : (
-              <button
-                onClick={() => {
-                  localStorage.removeItem("login");
-                  navigate("/login");
-                }}
-                className="py-2 px-3 bg-slate-100 border-2 rounded-lg"
-              >
-                Logout
-              </button>
-            )}
+              ) : (
+                <button
+                  onClick={() => {
+                    localStorage.removeItem("login");
+                    navigate("/login");
+                  }}
+                  className="py-2 px-3  mt-[5vh] bg-slate-100 border-2 rounded-lg"
+                >
+                  Logout
+                </button>
+              )}
+            </DrawerBody>
           </DrawerContent>
         </Drawer>
       </div>
