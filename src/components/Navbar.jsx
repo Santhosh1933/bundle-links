@@ -112,7 +112,7 @@ export const Navbar = () => {
             </DrawerBody>
 
             {!email ? (
-              <DrawerFooter className="w-full">
+              <DrawerFooter className="w-full my-[10vh]">
                 <div className="text-sm w-full cursor-pointer flex justify-center items-center gap-1">
                   <p
                     onClick={() => navigate("/Login")}
