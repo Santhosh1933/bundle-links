@@ -63,7 +63,8 @@ export const Home = () => {
           All you'r Link in <br /> one place
         </h1>
         <p className="py-6 text-slate-500 md:text-lg">
-          Make you'r link today and share more
+          Gather all your online presence in one stunning page. Your story, your
+          links, all in one place. Share the best version of you!
         </p>
         <div>
           <form
