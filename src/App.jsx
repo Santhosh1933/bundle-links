@@ -12,9 +12,9 @@ export default function App() {
   const [LoginAuth, setLoginAuth] = useState("login failed");
 
   useEffect(() => {
-    const { login } = JSON.parse(localStorage.getItem("login"));
-    if (!login) {
-      setLoginAuth(JSON.parse(localStorage.getItem("login")));
+    var login = localStorage.getItem("login");
+    if (login) {
+      login = JSON.parse(login);
     }
   }, [localStorage]);
 
