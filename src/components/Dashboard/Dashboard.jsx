@@ -42,7 +42,7 @@ export const Dashboard = () => {
   const updateRef = useRef();
 
   const handleCopyClick = () => {
-    const linkText = "http://127.0.0.1:5173/santhosh";
+    const linkText = "https://combiner.netlify.app/" + routeName.userRouteName;
     const tempInput = document.createElement("input");
     document.body.appendChild(tempInput);
     tempInput.value = linkText;
@@ -165,9 +165,9 @@ export const Dashboard = () => {
               </div>
               <a
                 className="text-center text-blue-700 p-2"
-                href={"http://127.0.0.1:5173/" + routeName.userRouteName}
+                href={"https://combiner.netlify.app/" + routeName.userRouteName}
               >
-                http://127.0.0.1:5173/{routeName.userRouteName}
+                https://combiner.netlify.app/{routeName.userRouteName}
               </a>
             </div>
             <div className="w-full bg-white p-4 flex flex-col gap-4">
