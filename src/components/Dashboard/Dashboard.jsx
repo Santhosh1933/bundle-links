@@ -61,7 +61,6 @@ export const Dashboard = () => {
     var login = localStorage.getItem("login");
     if (login) {
       setContext(JSON.parse(login));
-      console.log(login);
     }
   }, []);
 
@@ -70,12 +69,12 @@ export const Dashboard = () => {
     if (id) {
       let response = await fetch(`${Api}/get-route/${id}/0`);
       let data = await response.json();
-      setRouteName(data);
-      console.log(data);
+      if (!data.message) {
+        setRouteName(data);
+      }
     }
   }
   async function GetLinks() {
-    console.log(routeName);
     if (id) {
       let response = await fetch(`${Api}/get-links?RouteId=${routeName._id}`);
       let data = await response.json();
@@ -278,7 +277,6 @@ export const Dashboard = () => {
 
                             if (response.ok) {
                               const result = await response.text();
-                              console.log(result);
                               try {
                                 const response = await fetch(
                                   `${Api}/update-profile`,
@@ -300,10 +298,8 @@ export const Dashboard = () => {
                                   duration: 1000,
                                   colorScheme: "green",
                                 });
-                                console.log(res);
                                 setRefresh(!refresh);
                               } catch (error) {
-                                console.log(res);
                                 setRefresh(!refresh);
                               } finally {
                                 setRefresh(!refresh);
@@ -357,9 +353,7 @@ export const Dashboard = () => {
                       });
 
                       const result = await response.text();
-                      console.log(result);
                     } catch (error) {
-                      console.log(error);
                       setUpdateLoading(false);
                     } finally {
                       setUpdateLoading(false);
@@ -411,8 +405,6 @@ export const Dashboard = () => {
                         <div className="flex items-center justify-center gap-1">
                           <div
                             onClick={() => {
-                              console.log(link);
-                              console.log(link);
                               setUpdateInput({
                                 title: link.title,
                                 url: link.link,
@@ -446,7 +438,6 @@ export const Dashboard = () => {
                                   duration: 1000,
                                 });
                               } catch (error) {
-                                console.log(error);
                               } finally {
                                 setUpdateLoading(false);
                                 setRefresh(!refresh);
