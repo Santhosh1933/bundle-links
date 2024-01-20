@@ -30,9 +30,10 @@ export const OutputPage = () => {
     }
   }
   async function GetRoute() {
-    let response = await fetch(`${Api}/get-route?userRouteName=${routeName}`);
+    let response = await fetch(`${Api}/get-route/0/${routeName}`);
     let data = await response.json();
     setRouteDetails(data);
+    console.log(data)
     if (data.message == "No Route Found") {
       navigate("/");
     } else {

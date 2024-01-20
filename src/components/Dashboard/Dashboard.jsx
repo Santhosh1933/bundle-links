@@ -68,7 +68,7 @@ export const Dashboard = () => {
   const { id } = context;
   async function GetRoute() {
     if (id) {
-      let response = await fetch(`${Api}/get-route?userId=${id}`);
+      let response = await fetch(`${Api}/get-route/${id}/0`);
       let data = await response.json();
       setRouteName(data);
       console.log(data);
