@@ -105,7 +105,7 @@ export const Home = () => {
             {!RouteResult.userRouteName ? (
               <p className="text-sm text-red-600">{RouteResult}</p>
             ) : (
-              <p className="text-sm text-green-600">{`Your route created http://127.0.0.1:5173/${RouteResult.userRouteName}`}</p>
+              <p className="text-sm text-green-600">{`Your route created https://combiner.netlify.app/${RouteResult.userRouteName}`}</p>
             )}
           </div>
         </div>
